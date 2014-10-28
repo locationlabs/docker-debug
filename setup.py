@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-__version__ = '1.0'
+__version__ = '1.1'
 
 # Jenkins will replace __build__ with a unique value.
 __build__ = ''

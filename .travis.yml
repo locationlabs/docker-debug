@@ -7,7 +7,7 @@ deploy:
   provider: pypi
   user: zvikagart
   password:
-    secure: OhIfP1iLZLFD7n6wuwPlOX921dihj58trOP8xNI2KTZsvWlYh+qELzYeFRFp53l9VOlf+6CQFIWzbB+hz/gBiRlqLrRUwegusSAL6x2e/cypSX4ZbX95IkbwxU9td9rQY5OcZILlZ92T0A8Eei0J8vlDWExRdzGivoZzf3PughA=
+    secure: RX8XueSBJ7UsROpWlM1Zf/D+n2ctWY+w3DhuM7I07/Tc9I3xn9N0Tg4SK7Kdq8jv0VlcowBYX2QTkBhqmc73nza8SLYNEtOkJ9wv/SnSvqQ84GECX+AgM7EnRZ9Tt+Da13/KI4TpVWL41hE7Eh0STUA2HCNIDXgUnIBD6ntu/zU=
   on:
     tags: true
     repo: locationlabs/docker-debug
