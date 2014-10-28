@@ -1,0 +1,13 @@
+language: python
+python:
+- '2.7'
+install: pip install . --use-mirrors
+script: python setup.py nosetests
+deploy:
+  provider: pypi
+  user: zvikagart
+  password:
+    secure: OhIfP1iLZLFD7n6wuwPlOX921dihj58trOP8xNI2KTZsvWlYh+qELzYeFRFp53l9VOlf+6CQFIWzbB+hz/gBiRlqLrRUwegusSAL6x2e/cypSX4ZbX95IkbwxU9td9rQY5OcZILlZ92T0A8Eei0J8vlDWExRdzGivoZzf3PughA=
+  on:
+    tags: true
+    repo: locationlabs/docker-debug
