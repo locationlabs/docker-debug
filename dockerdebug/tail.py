@@ -5,12 +5,18 @@ class TailCommand(object):
     """
     Tail docker container log.
     """
-    def __init__(self, inspection):
+    def __init__(self, inspection, flags):
         """
         :param inspection: docker inspect output for a container.
         """
         self.inspection = inspection
-        self.args = ["tail", "-f"]
+        self.flags = flags
+        self.args = ["tail"]
+
+    def add_tail_flags(self):
+        if self.flags:
+            self.args.extend(self.flags)
+        return self
 
     def add_log_file(self):
         self.args.append("/var/lib/docker/containers/{id}/{id}-json.log".format(
@@ -27,7 +33,8 @@ class TailCommand(object):
 
         inspection = docker_client.inspect_container(container)
 
-        return (cls(inspection)
+        return (cls(inspection, extra)
+                .add_tail_flags()
                 .add_log_file())
 
     def execute(self):
@@ -36,4 +43,4 @@ class TailCommand(object):
         """
         print "DOCKER-DEBUG:", " ".join(self.args)
 
-        execv("tail", self.args)
+        execv("/usr/bin/tail", self.args)
