@@ -12,7 +12,8 @@ class TestRunCommand(object):
 
     def test_build(self):
         args = make_args(container="foo")
-        command = TailCommand.build(self.docker_client, args)
+        extra = ["-f"]
+        command = TailCommand.build(self.docker_client, args, extra)
 
         expected = " ".join(
             ["tail",
