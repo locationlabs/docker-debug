@@ -3,11 +3,11 @@ Debug a docker container.
 """
 
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-from os import execv
 
 from docker.client import Client
 
 from dockerdebug.run import RunCommand
+from dockerdebug.tail import TailCommand
 
 
 def main():
@@ -22,16 +22,22 @@ def main():
     run_parser.add_argument("--command",
                             default="/bin/bash",
                             help="command to execute at runtime")
+    run_parser.set_defaults(func=RunCommand.build)
+
+    tail_parser = subparsers.add_parser("tail",
+                                        formatter_class=ArgumentDefaultsHelpFormatter,
+                                        help="tail docker container stdout/stderr log")
+    tail_parser.add_argument("container",
+                             help="Container name to tail")
+    tail_parser.set_defaults(func=TailCommand.build)
 
     args, extra = parser.parse_known_args()
 
     # connect to Docker
     client = Client()
 
-    # build the run command for the container
-    command = RunCommand.for_container(client, args.container, args.command)
-
-    print "DOCKER-DEBUG:", " ".join(command.args)
+    # build the command for the container
+    command = parser.func(client, args, extra)
 
     # execute the command
-    execv("/usr/bin/docker", command.args)
+    command.execute()
