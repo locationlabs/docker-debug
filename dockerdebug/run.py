@@ -1,3 +1,6 @@
+from os import execv
+
+
 class RunCommand(object):
     """
     Builder for a docker run command.
@@ -12,8 +15,8 @@ class RunCommand(object):
         self.args = ["docker", "run", "--rm", "-it"]
 
     def add_volumes(self):
-        for src, dst in self.inspection["Volumes"].items():
-            self.args.append("--volume={}:{}".format(src, dst))
+        for container_path, host_path in self.inspection["Volumes"].items():
+            self.args.append("--volume={}:{}".format(host_path, container_path))
         return self
 
     def add_ports(self):
@@ -32,13 +35,25 @@ class RunCommand(object):
         return self
 
     @classmethod
-    def for_container(cls, docker_client, container, command=None):
+    def build(cls, docker_client, args, extra=None):
         """
         Build the docker run command arguments for the given container name or ID.
         """
+        container = args.container
+        command = args.command
+
         inspection = docker_client.inspect_container(container)
+
         return (cls(inspection, command)
                 .add_volumes()
                 .add_ports()
                 .add_image()
                 .add_command())
+
+    def execute(self):
+        """
+        Execute the command.
+        """
+        print "DOCKER-DEBUG:", " ".join(self.args)
+
+        execv("/usr/bin/docker", self.args)

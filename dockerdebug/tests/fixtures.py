@@ -1,3 +1,14 @@
+class Args(object):
+    pass
+
+
+def make_args(**kwargs):
+    args = Args()
+    for key, value in kwargs.iteritems():
+        setattr(args, key, value)
+    return args
+
+
 INSPECTION = {
     u'HostsPath': u'/var/lib/docker/containers/ebd564e818c5c320828e4ff0c19079dcbfe509c438ce0e273a6962cd16b56fbe/hosts',  # noqa
     u'Created': u'2014-10-22T23: 47: 58.969872756Z',

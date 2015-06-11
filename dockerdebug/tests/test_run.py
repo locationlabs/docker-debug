@@ -2,7 +2,7 @@ from mock import Mock
 from nose.tools import eq_
 
 from dockerdebug.run import RunCommand
-from dockerdebug.tests.fixtures import INSPECTION
+from dockerdebug.tests.fixtures import INSPECTION, make_args
 
 
 class TestRunCommand(object):
@@ -11,7 +11,8 @@ class TestRunCommand(object):
         self.docker_client = Mock(inspect_container=Mock(return_value=INSPECTION))
 
     def test_build(self):
-        command = RunCommand.for_container(self.docker_client, "foo", "/bin/bash")
+        args = make_args(container="foo", command="/bin/bash")
+        command = RunCommand.build(self.docker_client, args)
 
         expected = " ".join(["docker run --rm -it",
                              "--volume=/etc/peoples:/etc/peoples",
