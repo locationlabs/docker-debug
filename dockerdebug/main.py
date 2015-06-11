@@ -37,7 +37,7 @@ def main():
     client = Client()
 
     # build the command for the container
-    command = parser.func(client, args, extra)
+    command = args.func(client, args, extra)
 
     # execute the command
     command.execute()
